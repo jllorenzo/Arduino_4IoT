@@ -15,6 +15,8 @@ struct BoardID {
   long serial;
   int  id;
   long key;
+  char *name;
+  
 };
 
 class Thing {

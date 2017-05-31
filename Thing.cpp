@@ -9,6 +9,7 @@
 
 #define firmwareNumber 3
 
+
 volatile long lastDebounce=0;
 volatile long debounceDelay=1;
 volatile long ntime=0;
@@ -161,7 +162,7 @@ char* Thing::read(char* command) {
 }
 
 void Thing::discoverySerial() {
-  Serial.print("surfboard");
+  Serial.print(boardID.name);
   Serial.print(boardID.id);
   Serial.print("|");
   Serial.print(numberOfComponents);
@@ -220,7 +221,7 @@ void Thing::serialServer() {
         return;
      }
      else if(strcmp("name",command)==0) {
-        Serial.print("surfboard");
+        Serial.print(boardID.name);
         Serial.println(boardID.id);
         return;
      }
@@ -257,7 +258,7 @@ int Thing::firmware() {
 void Thing::identification(boolean complete) {
   Serial.print("{\"name\" : ");
   Serial.print("\"");
-  Serial.print("surfboard");
+  Serial.print(boardID.name);
   Serial.print(boardID.id);
   Serial.print("\"");
   Serial.print(",");
@@ -370,6 +371,8 @@ void Thing::start() {
   digitalWrite(2, HIGH); //PULL-UP INT0
   attachInterrupt(0, changeModeViaButton, LOW);
   initFunction();
+  
+  boardID.name = "surfboard";
 }
 
 void Thing::start(int intNumber) {
@@ -378,6 +381,8 @@ void Thing::start(int intNumber) {
     attachInterrupt(intNumber, changeModeViaButton, LOW);
   }   
   initFunction();
+
+  boardID.name = "arduino4IoT";
 }
 
 void Thing::config() {
